@@ -1,7 +1,10 @@
 package applications;
 
+import java.io.IOException;
+
 import com.senac.SimpleJava.Console;
 import com.senac.SimpleJava.Graphics.Canvas;
+import com.senac.SimpleJava.Graphics.Image;
 import com.senac.SimpleJava.Graphics.Point;
 
 public class Screen {
@@ -10,6 +13,37 @@ public class Screen {
 	private int health = 20;
 	private Item newItem;
 	private boolean onItemSelection = false;
+	private boolean win = false;
+	private boolean loose = false;
+	private Image winImg;
+	private Image looseImg;
+	public boolean vitoria;
+	
+	public boolean isWin() {
+		return win;
+	}
+
+	public void setWin(boolean win) {
+		this.win = win;
+		try {
+			winImg = new Image("Win.png");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public boolean isLoose() {
+		return loose;
+	}
+
+	public void setLoose(boolean loose) {
+		this.loose = loose;
+		try {
+			looseImg = new Image("Loose.png");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public int getHealth() {
 		return health;
@@ -35,83 +69,71 @@ public class Screen {
 		this.it2 = it2;
 	}
 	
-
+	
 	public void Draw(Canvas canvas, java.awt.Point ponto, Room room)
 	{
-		if(onItemSelection)
+		if(!loose && health < 1)
 		{
-			canvas.drawImage(newItem.getImagem(), (int)ponto.getX(), (int)ponto.getY());
+			this.setLoose(true);
+		}		
+		if(!win && vitoria)
+		{
+			this.setWin(true);
 		}
-		Item atual = room.getItemList().getHead();
-		for(int i = 0; i < room.getItemList().GetTamanho(); i++)
+		if(win)
 		{
-			canvas.drawImage(atual.getImagem(), atual.getX(), atual.getY());
-			x = 0; 
-			y = 0;
-			try
+			canvas.drawImage(winImg, 0, 0);
+		}
+		else if(loose)
+		{
+			canvas.drawImage(looseImg, 0, 0);
+		}
+		else
+		{
+			if(onItemSelection)
 			{
-				this.x = (int) ponto.getX();
-				this.y = (int) ponto.getY();
+				canvas.drawImage(newItem.getImagem(), (int)ponto.getX(), (int)ponto.getY());
 			}
-			catch(Exception e)
+			Item atual = room.getItemList().getHead();
+			for(int i = 0; i < room.getItemList().GetTamanho(); i++)
 			{
-
+				canvas.drawImage(atual.getImagem(), atual.getX(), atual.getY());
+				x = 0; 
+				y = 0;
+				try
+				{
+					this.x = (int) ponto.getX();
+					this.y = (int) ponto.getY();
+				}
+				catch(Exception e)
+				{
+	
+				}
+				if((x >= atual.getX() && x <= atual.getX() + atual.getTamX()) && 
+						(y >= atual.getY() && y <= atual.getY() + atual.getTamY()))
+				{
+					canvas.drawImage(atual.getSelected(), atual.getX(), atual.getY());
+				}			
+				atual = atual.getProximo();
 			}
-			if((x >= atual.getX() && x <= atual.getX() + atual.getTamX()) && 
-					(y >= atual.getY() && y <= atual.getY() + atual.getTamY()))
+			if(it1 != null)
 			{
-				canvas.drawImage(atual.getSelected(), atual.getX(), atual.getY());
-			}			
-			atual = atual.getProximo();
-		}
-		if(it1 != null)
-		{
-			canvas.drawImage(it1.getImagem(), 591, 156);
-		}
-		if(it2 != null)
-		{
-			canvas.drawImage(it2.getImagem(), 686, 156);
+				canvas.drawImage(it1.getImagem(), 591, 156);
+			}
+			if(it2 != null)
+			{
+				canvas.drawImage(it2.getImagem(), 686, 156);
+			}
 		}
 	}
 	
 	public void Click(Point pontoClick, Room room, DrawScreen dw)
 	{
-		if(onItemSelection)
+		if(!win && !loose)
 		{
-			onItemSelection = false;
-			x = 0; 
-			y = 0;
-			try
+			if(onItemSelection)
 			{
-				this.x = (int) pontoClick.x;
-				this.y = (int) pontoClick.y;
-			}
-			catch(Exception e)
-			{
-
-			}
-			if((x >= 591 && x <= 667) && (y >= 156 && y <= 202))
-			{	
-				room.getItemList().Add(it1);
-				this.setIt1(newItem);
-				newItem = null;
-			}
-			else if((x >= 686 && x <= 762) && (y >= 156 && y <= 202))
-			{
-				room.getItemList().Add(it2);
-				this.setIt2(newItem);
-				newItem = null;
-			}
-			else
-			{
-				room.getItemList().Add(newItem);
-			}
-		}
-		else
-		{
-			Item atual = room.getItemList().getHead();
-			for(int i = 0; i < room.getItemList().GetTamanho(); i++)
-			{
+				onItemSelection = false;
 				x = 0; 
 				y = 0;
 				try
@@ -123,14 +145,65 @@ public class Screen {
 				{
 	
 				}
-				if((x >= atual.getX() && x <= atual.getX() + atual.getTamX()) && 
-						(y >= atual.getY() && y <= atual.getY() + atual.getTamY()))
-				{
-					atual.Click(dw);
+				if((x >= 591 && x <= 667) && (y >= 156 && y <= 202))
+				{	
+					room.getItemList().Add(it1);
+					this.setIt1(newItem);
+					newItem = null;
 				}
-				atual = atual.getProximo();
+				else if((x >= 686 && x <= 762) && (y >= 156 && y <= 202))
+				{
+					room.getItemList().Add(it2);
+					this.setIt2(newItem);
+					newItem = null;
+				}
+				else
+				{
+					room.getItemList().Add(newItem);
+				}
+			}
+			else
+			{
+					Item atual = room.getItemList().getHead();
+					for(int i = 0; i < room.getItemList().GetTamanho(); i++)
+					{
+						x = 0; 
+						y = 0;
+						try
+						{
+							this.x = (int) pontoClick.x;
+							this.y = (int) pontoClick.y;
+						}
+						catch(Exception e)
+						{
+			
+						}
+						if((x >= atual.getX() && x <= atual.getX() + atual.getTamX()) && 
+								(y >= atual.getY() && y <= atual.getY() + atual.getTamY()))
+						{
+							if(atual.getCategoria().equals("Door"))
+							{
+								Door door = (Door) atual;
+								if(door.getSala() == 0)
+								{
+									vitoria = true;
+								}
+								else
+								{
+									atual.Click(dw);
+								}	
+							}
+							else
+							{
+								atual.Click(dw);
+							}
+							
+						}
+							atual = atual.getProximo();
+				}
 			}
 		}
+		
 	}
 	
 	public void NewItemSelection(Item item)

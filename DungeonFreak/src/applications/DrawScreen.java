@@ -56,7 +56,7 @@ public class DrawScreen
 	}
 
 	@Override
-	protected void setup() {	
+	protected void setup() {		
 		setFramesPerSecond(60);
 		setResolution(Resolution.HIGHRES);
 		addMouseObserver(MouseEvent.CLICK, this);
@@ -73,7 +73,7 @@ public class DrawScreen
 		
 		roomList = new RoomList();
 		LoadRooms("rooms.txt", roomList);
-		this.room = roomList.GetRoomByNumber(1);
+		this.room = roomList.GetRoomByNumber((int)((Math.random() * 30) + 1));
 		screen = new Screen();
 		try {
 			roomImage = new Image("Room.png");
@@ -81,6 +81,7 @@ public class DrawScreen
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+		
 	}
 	
 	private void LoadRooms(String arquivo, RoomList list)

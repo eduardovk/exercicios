@@ -54,7 +54,15 @@ public class Door extends Item {
 	{
 		if(!travada && !bloqueada)
 		{
-			dw.room = dw.roomList.GetRoomByNumber(this.sala);
+			
+			if(sala == 0)
+			{
+				dw.screen.setWin(true);
+			}
+			else
+			{
+				dw.room = dw.roomList.GetRoomByNumber(this.sala);
+			}
 		}
 		else if(!bloqueada)
 		{
@@ -72,11 +80,25 @@ public class Door extends Item {
 				}
 				if(this.tipo.equals(i1 + "North") || this.tipo.equals(i1 + "South") || this.tipo.equals(i1 + "West") || this.tipo.equals(i1 + "East"))
 				{
-					dw.room = dw.roomList.GetRoomByNumber(this.sala);
+					if(sala == 0)
+					{
+						dw.screen.setWin(true);
+					}
+					else
+					{
+						dw.room = dw.roomList.GetRoomByNumber(this.sala);
+					}
 				}
 				else if(this.tipo.equals(i2 + "North") || this.tipo.equals(i2 + "South") || this.tipo.equals(i2 + "West") || this.tipo.equals(i2 + "East"))
 				{
-					dw.room = dw.roomList.GetRoomByNumber(this.sala);
+					if(sala == 0)
+					{
+						dw.screen.setWin(true);
+					}
+					else
+					{
+						dw.room = dw.roomList.GetRoomByNumber(this.sala);
+					}
 				}
 			}
 			catch(Exception e)
