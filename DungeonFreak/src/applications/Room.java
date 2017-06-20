@@ -1,6 +1,4 @@
 package applications;
-import com.senac.SimpleJava.Console;
-
 public class Room {
 	
 	private String north, south;
@@ -33,8 +31,6 @@ public class Room {
 	{
 		return numero;
 	}
-	
-	
 	
 	private void CriarSala(String linha)
 	{
@@ -167,7 +163,7 @@ public class Room {
 		}
 		else if(num <=150)
 		{
-			//itemList.Add(new Armadura("Escudo", "Escudo", ));
+			itemList.Add(new Armadura("Escudo", "Escudo", 378, 428, 60, 60 ));
 		}
 		else if(num <= 160)
 		{

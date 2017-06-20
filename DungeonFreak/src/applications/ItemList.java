@@ -19,7 +19,6 @@ public class ItemList {
 		{
 			this.tail.setProximo(item);	
 			item.setAnterior(this.tail);
-
 		}
 		this.tail = item;
 		totalElementos++;
@@ -27,7 +26,6 @@ public class ItemList {
 	
 	public void Remove(Item item)
 	{
-		
 		try
 		{
 			if(this.head != item)
@@ -43,16 +41,13 @@ public class ItemList {
 				else
 				{
 					tail = itemAnterior;
-				}
-				
+				}				
 			}
 			else
 			{
 				this.head = item.getProximo();
 				this.head.setAnterior(null);
 			}
-			
-
 		}
 		catch(Exception e)
 		{

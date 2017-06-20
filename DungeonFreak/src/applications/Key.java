@@ -24,14 +24,14 @@ public class Key extends Item{
 	@Override
 	public void Click(DrawScreen dw)
 	{
-		if(dw.screen.getIt1() == null)   //if(dw.screen.getItem1().equals(""))
+		if(dw.screen.getIt1() == null) 
 		{
-			dw.screen.setIt1(this);   //dw.screen.setItem1(this.tipo);
+			dw.screen.setIt1(this);
 			dw.room.getItemList().Remove(this);
 		}
-		else if(dw.screen.getIt2() == null)   //else if(dw.screen.getItem2().equals(""))
+		else if(dw.screen.getIt2() == null)
 		{
-			dw.screen.setIt2(this);   //dw.screen.setItem2(this.tipo);
+			dw.screen.setIt2(this);
 			dw.room.getItemList().Remove(this);
 		}
 		else

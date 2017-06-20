@@ -1,18 +1,15 @@
 package applications;
 
-import java.io.IOException;
-
 import com.senac.SimpleJava.Console;
 import com.senac.SimpleJava.Graphics.Canvas;
-import com.senac.SimpleJava.Graphics.Image;
 import com.senac.SimpleJava.Graphics.Point;
 
 public class Screen {
 	int x, y;
-	//private String item1 = "", item2 = "";
 	private Item it1, it2;
-	private int health = 100;
-	
+	private int health = 20;
+	private Item newItem;
+	private boolean onItemSelection = false;
 
 	public int getHealth() {
 		return health;
@@ -22,11 +19,6 @@ public class Screen {
 		this.health = health;
 	}
 
-	//private Image item1Image;
-	//private Image item2Image;
-	private Item newItem;
-	private boolean onItemSelection = false;
-	
 	public Item getIt1() {
 		return it1;
 	}
@@ -43,33 +35,6 @@ public class Screen {
 		this.it2 = it2;
 	}
 	
-//	public String getItem1() {
-//		return item1;
-//	}
-
-//	public void setItem1(String item1) {
-//		this.item1 = item1;
-//		try {
-//			item1Image = new Image(item1+".png");
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}
-//
-//	public String getItem2() {
-//		return item2;
-//	}
-//
-//	public void setItem2(String item2) {
-//		this.item2 = item2;
-//		try {
-//			item2Image = new Image(item2+".png");
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}
 
 	public void Draw(Canvas canvas, java.awt.Point ponto, Room room)
 	{
@@ -99,13 +64,13 @@ public class Screen {
 			}			
 			atual = atual.getProximo();
 		}
-		if(it1 != null)   //if(!getItem1().equals(""))
+		if(it1 != null)
 		{
-			canvas.drawImage(it1.getImagem(), 591, 156);   //canvas.drawImage(item1Image, 591, 156);
+			canvas.drawImage(it1.getImagem(), 591, 156);
 		}
-		if(it2 != null)   //if(!getItem2().equals(""))
+		if(it2 != null)
 		{
-			canvas.drawImage(it2.getImagem(), 686, 156);   //canvas.drawImage(item2Image, 686, 156);
+			canvas.drawImage(it2.getImagem(), 686, 156);
 		}
 	}
 	
@@ -114,7 +79,6 @@ public class Screen {
 		if(onItemSelection)
 		{
 			onItemSelection = false;
-			//room.getItemList().Add(newItem); //apagar depois
 			x = 0; 
 			y = 0;
 			try
@@ -127,15 +91,10 @@ public class Screen {
 
 			}
 			if((x >= 591 && x <= 667) && (y >= 156 && y <= 202))
-			{
-				
+			{	
 				room.getItemList().Add(it1);
 				this.setIt1(newItem);
 				newItem = null;
-				
-				//se clique está dentro do inventario
-				//adiciona o item ao menu, e o que estava no menu
-				//adiciona a room
 			}
 			else if((x >= 686 && x <= 762) && (y >= 156 && y <= 202))
 			{
@@ -178,12 +137,10 @@ public class Screen {
 	{
 		onItemSelection = true;
 		this.newItem = item;
-		
 	}
 	
 	public void Duel(Monster monster, DrawScreen dw, Door door)
 	{
-		String monsterType = monster.getTipo();
 		int esquiva = 0;
 		int defesa = 0;
 		int ataque = 2;
@@ -231,13 +188,18 @@ public class Screen {
 		{
 			precisao = 75;
 		}
-			Console.println("Ataque: " + ataque + " Defesa: " + defesa + " Precisao: " + precisao + " Esquiva: " + esquiva);
+			Console.println("Ataque: " + ataque + " Defesa: " + defesa + "\nPrecisao: " + precisao + " Esquiva: " + esquiva + "\n");
 		int num = (int) (Math.random() * 100);
 		if(num <= precisao)
 		{
 			monster.setHealth(monster.getHealth() - ataque);
+			Console.println("Causou " + ataque + " de dano ao " + monster.getTipo() + "!");
 		}
-		Console.println("Vida Monstro: " + monster.getHealth());
+		else
+		{
+			Console.println("Errou o ataque ao " + monster.getTipo() + "!");
+		}
+		
 		if(monster.getHealth() > 0)
 		{
 			num = (int) (Math.random() * 100);
@@ -246,22 +208,28 @@ public class Screen {
 				if((monster.getAtk() - defesa) > 0)
 				{
 					health -= (monster.getAtk() - defesa);
+					Console.println("Perdeu " + (monster.getAtk() - defesa) + " de vida!");
 					if(health < 1)
 					{
 						Console.println("GAAAAAMEEEE OOOOOVEEEEEEER!");
-					}
-					Console.println("Vida Player: " + health);
+					}				
 				}
+				
 			}
+			else
+			{
+				Console.println("O " + monster.getTipo() + " errou o ataque!");
+			}
+			Console.println("\nVida Monstro: " + monster.getHealth());
 		}
 		else
 		{
 			door.bloqueada = false;
 			monster.RemoveMonster(dw);
-			//dw.room.getItemList().Remove(monster);
-			
+			Console.println("\nVida Monstro: 0");
 		}
-		
+		Console.println("Vida Player: " + health);
+		Console.println("\n");
 	}
 	
 	

@@ -6,7 +6,6 @@ import com.senac.SimpleJava.Graphics.Image;
 public class Door extends Item {	
 	private String tipo;
 	private int sala;
-	private String lastDoor = "";
 	boolean travada = false;
 	boolean bloqueada = false;
 	
@@ -14,13 +13,13 @@ public class Door extends Item {
 	{
 		this.tipo = tipo;
 		this.setCategoria(categoria);
-		this.lastDoor = lastDoor;
 		this.sala = sala;
 		this.setX(x);
 		this.setY(y);
 		this.setTamX(tamX);
 		this.setTamY(tamY);
-		try {
+		try 
+		{
 			this.setSelected(new Image("Selected" + tipo + ".png"));
 			if(!tipo.equals("Up") && !tipo.equals("Down"))
 			{
@@ -29,10 +28,10 @@ public class Door extends Item {
 			else
 			{
 				this.setImagem(new Image(tipo + ".png"));
-			}
-			
-			
-		} catch (IOException e) {
+			}			
+		}
+		catch (IOException e)
+		{
 			e.printStackTrace();
 		}
 	}
@@ -43,7 +42,6 @@ public class Door extends Item {
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
-	
 	public int getSala() {
 		return sala;
 	}
@@ -57,7 +55,6 @@ public class Door extends Item {
 		if(!travada && !bloqueada)
 		{
 			dw.room = dw.roomList.GetRoomByNumber(this.sala);
-			//dw.room.lastDoor = this.getTipo();
 		}
 		else if(!bloqueada)
 		{
@@ -73,7 +70,6 @@ public class Door extends Item {
 				{
 					 i2 = dw.screen.getIt2().getTipo();
 				}
-			
 				if(this.tipo.equals(i1 + "North") || this.tipo.equals(i1 + "South") || this.tipo.equals(i1 + "West") || this.tipo.equals(i1 + "East"))
 				{
 					dw.room = dw.roomList.GetRoomByNumber(this.sala);
