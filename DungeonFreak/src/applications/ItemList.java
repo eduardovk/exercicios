@@ -30,18 +30,28 @@ public class ItemList {
 		
 		try
 		{
-			Item itemAnterior = item.getAnterior();
-			Item proxItem = item.getProximo();
-			
-			itemAnterior.setProximo(proxItem);
-			if(this.tail != item)
+			if(this.head != item)
 			{
-				proxItem.setAnterior(itemAnterior);
+				Item itemAnterior = item.getAnterior();
+				Item proxItem = item.getProximo();
+				itemAnterior.setProximo(proxItem);
+				
+				if(this.tail != item)
+				{
+					proxItem.setAnterior(itemAnterior);
+				}
+				else
+				{
+					tail = itemAnterior;
+				}
+				
 			}
 			else
 			{
-				tail = itemAnterior;
+				this.head = item.getProximo();
+				this.head.setAnterior(null);
 			}
+			
 
 		}
 		catch(Exception e)

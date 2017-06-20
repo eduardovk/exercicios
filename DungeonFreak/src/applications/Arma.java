@@ -6,6 +6,22 @@ import com.senac.SimpleJava.Graphics.Image;
 
 public class Arma extends Item{
 	private int atk;
+	public int getAtk() {
+		return atk;
+	}
+
+	public void setAtk(int atk) {
+		this.atk = atk;
+	}
+
+	public int getPrecision() {
+		return precision;
+	}
+
+	public void setPrecision(int precision) {
+		this.precision = precision;
+	}
+
 	private int precision;
 	
 	public Arma(String tipo, String categoria, int x, int y, int tamX, int tamY)
@@ -29,7 +45,7 @@ public class Arma extends Item{
 		}
 		else
 		{
-			atk = 4;
+			atk = 5;
 			precision = 65;
 		}
 		this.setX(x);

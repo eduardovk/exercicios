@@ -6,6 +6,14 @@ import com.senac.SimpleJava.Graphics.Image;
 
 public class Armadura extends Item {
 	private int defesa;
+	public int getDefesa() {
+		return defesa;
+	}
+
+	public void setDefesa(int defesa) {
+		this.defesa = defesa;
+	}
+
 	public Armadura(String tipo, String categoria, int x, int y, int tamX, int tamY)
 	{
 		this.setTipo(tipo);

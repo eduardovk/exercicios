@@ -6,6 +6,14 @@ import com.senac.SimpleJava.Graphics.Image;
 
 public class Monster extends Item{
 	private int atk;
+	private int health;
+	private Door door;
+	public int getHealth() {
+		return health;
+	}
+	public void setHealth(int health) {
+		this.health = health;
+	}
 	public int getAtk() {
 		return atk;
 	}
@@ -20,24 +28,28 @@ public class Monster extends Item{
 	}
 	private int precision;
 	
-	public Monster(String tipo, String categoria, String local, int tamX, int tamY)
+	public Monster(String tipo, String categoria, String local, Door door, int tamX, int tamY)
 	{
 		this.setTipo(tipo);
 		this.setCategoria(categoria);
+		this.door = door;
 		if(tipo.equals("Goblin"))
 		{
 			atk = 2;
 			precision = 80;
+			health = 5;
 		}
 		else if(tipo.equals("Orc"))
 		{
 			atk = 4;
 			precision = 75;
+			health = 10;
 		}
 		else if (tipo.equals("Troll"))
 		{
 			atk = 6;
 			precision = 50;
+			health = 15;
 		}
 		if(local.equals("North"))
 		{
@@ -72,6 +84,12 @@ public class Monster extends Item{
 	@Override
 	public void Click(DrawScreen dw)
 	{
-		//EXECUTA LUTA
+		dw.screen.Duel(this, dw, door);
 	}
+	
+	public void RemoveMonster(DrawScreen dw)
+	{
+		dw.room.getItemList().Remove(this);
+	}
+	
 }

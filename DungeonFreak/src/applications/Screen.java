@@ -11,7 +11,16 @@ public class Screen {
 	int x, y;
 	//private String item1 = "", item2 = "";
 	private Item it1, it2;
+	private int health = 100;
 	
+
+	public int getHealth() {
+		return health;
+	}
+
+	public void setHealth(int health) {
+		this.health = health;
+	}
 
 	//private Image item1Image;
 	//private Image item2Image;
@@ -171,4 +180,89 @@ public class Screen {
 		this.newItem = item;
 		
 	}
+	
+	public void Duel(Monster monster, DrawScreen dw, Door door)
+	{
+		String monsterType = monster.getTipo();
+		int esquiva = 0;
+		int defesa = 0;
+		int ataque = 2;
+		int precisao = 0;
+		try
+		{
+			if(it1.getCategoria().equals("Escudo"))
+			{
+				Armadura armadura = (Armadura) it1;
+				esquiva = armadura.getDefesa();
+			}
+			else if(it1.getCategoria().equals("Armadura"))
+			{
+				Armadura armadura = (Armadura) it1;
+				defesa += armadura.getDefesa();
+			}
+			else if(it1.getCategoria().equals("Arma"))
+			{
+				Arma arma = (Arma) it1;
+				ataque += arma.getAtk();
+				precisao = arma.getPrecision();
+			}
+			if(it2.getCategoria().equals("Escudo"))
+			{
+				Armadura armadura = (Armadura) it2;
+				esquiva += armadura.getDefesa();
+			}
+			else if(it2.getCategoria().equals("Armadura"))
+			{
+				Armadura armadura = (Armadura) it2;
+				defesa += armadura.getDefesa();
+			}
+			else if(it2.getCategoria().equals("Arma"))
+			{
+				Arma arma = (Arma) it2;
+				ataque += arma.getAtk();
+				precisao += arma.getPrecision();
+			}
+		}
+		catch(Exception e)
+		{
+			
+		}
+		if(precisao == 0)
+		{
+			precisao = 75;
+		}
+			Console.println("Ataque: " + ataque + " Defesa: " + defesa + " Precisao: " + precisao + " Esquiva: " + esquiva);
+		int num = (int) (Math.random() * 100);
+		if(num <= precisao)
+		{
+			monster.setHealth(monster.getHealth() - ataque);
+		}
+		Console.println("Vida Monstro: " + monster.getHealth());
+		if(monster.getHealth() > 0)
+		{
+			num = (int) (Math.random() * 100);
+			if(num <= (monster.getPrecision() - esquiva))
+			{
+				if((monster.getAtk() - defesa) > 0)
+				{
+					health -= (monster.getAtk() - defesa);
+					if(health < 1)
+					{
+						Console.println("GAAAAAMEEEE OOOOOVEEEEEEER!");
+					}
+					Console.println("Vida Player: " + health);
+				}
+			}
+		}
+		else
+		{
+			door.bloqueada = false;
+			monster.RemoveMonster(dw);
+			//dw.room.getItemList().Remove(monster);
+			
+		}
+		
+	}
+	
+	
 }

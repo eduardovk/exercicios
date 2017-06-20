@@ -64,7 +64,7 @@ public class Room {
 		CreateItems();
 	}
 	
-	public boolean CreateMonster(String Door)
+	public boolean CreateMonster(String Door, Door porta)
 	{
 		int num = (int) (Math.random() * 100);
 		if(num <= 80)
@@ -73,22 +73,22 @@ public class Room {
 		}
 		else if (num <= 85)
 		{
-			itemList.Add(new Monster("Orc", "Monster", Door, 83, 109));
+			itemList.Add(new Monster("Orc", "Monster", Door, porta, 83, 109));
 			return true;
 		}
 		else if(num <= 90)
 		{
-			itemList.Add(new Monster("Troll", "Monster", Door, 79, 138));
+			itemList.Add(new Monster("Troll", "Monster", Door, porta, 79, 138));
 			return true;
 		}
 		else if(num <= 95)
 		{
-			itemList.Add(new Monster("Goblin", "Monster", Door, 52, 100 ));
+			itemList.Add(new Monster("Goblin", "Monster", Door, porta, 52, 100 ));
 			return true;
 		}
 		else
 		{
-			itemList.Add(new Monster("Goblin", "Monster", Door, 52, 100 ));
+			itemList.Add(new Monster("Goblin", "Monster", Door, porta, 52, 100 ));
 			return true;
 		}
 	}
@@ -98,25 +98,25 @@ public class Room {
 		if(!north.equals("-"))
 		{
 			Door door = new Door("North", "Door", Integer.parseInt(north), 230, 9, 110, 64, this.lastDoor);		
-			door.bloqueada = CreateMonster("North");
+			door.bloqueada = CreateMonster("North", door);
 			itemList.Add(door);
 		}
 		if(!south.equals("-"))
 		{
 			Door door = new Door("South", "Door", Integer.parseInt(south), 230, 500, 110, 64, this.lastDoor);
-			door.bloqueada = CreateMonster("South");
+			door.bloqueada = CreateMonster("South", door);
 			itemList.Add(door);
 		}
 		if(!east.equals("-"))
 		{
 			Door door = new Door("East", "Door", Integer.parseInt(east), 500, 230, 63, 110, this.lastDoor);
-			door.bloqueada = CreateMonster("East");
+			door.bloqueada = CreateMonster("East", door);
 			itemList.Add(door);
 		}
 		if(!west.equals("-"))
 		{
 			Door door = new Door("West", "Door", Integer.parseInt(west), 9, 230, 63, 110, this.lastDoor);
-			door.bloqueada = CreateMonster("West");
+			door.bloqueada = CreateMonster("West", door);
 			itemList.Add(door);
 		}
 		if(!up.equals("-"))
